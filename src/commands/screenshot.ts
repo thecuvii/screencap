@@ -24,7 +24,7 @@ export const screenshotCommand = define({
       type: 'enum',
       short: 'p',
       choices: ['viewport', 'scroll', 'full'] as const,
-      description: 'Preset size: viewport (1440x900), scroll (1440x3600), full (full page)',
+      description: 'Preset size: viewport (1440x900), scroll (1400x2100), full (full page)',
     },
     width: {
       type: 'number',

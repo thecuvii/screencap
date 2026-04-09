@@ -6,7 +6,7 @@ export interface PresetConfig {
 
 const presets: Record<string, PresetConfig> = {
   viewport: { width: 1440, height: 900, fullPage: false },
-  scroll: { width: 1440, height: 3600, fullPage: false },
+  scroll: { width: 1400, height: 2100, fullPage: false },
   full: { width: 1440, height: 900, fullPage: true },
 }
 
