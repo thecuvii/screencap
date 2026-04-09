@@ -1,15 +1,12 @@
 import { define } from 'gunshi'
 
-import { closeBrowser } from '../modules/browser/close-browser.ts'
-import { openPage } from '../modules/browser/open-page.ts'
-import { setViewport } from '../modules/browser/set-viewport.ts'
-import { takeScreenshot } from '../modules/browser/take-screenshot.ts'
-import { waitForLoad } from '../modules/browser/wait-for-load.ts'
+import { captureScreenshot } from '../modules/browser/capture-screenshot.ts'
 import { resolveOutputPath } from '../modules/output/resolve-output-path.ts'
 import { resolvePreset } from '../modules/preset/resolve-preset.ts'
 
 const DEFAULT_WIDTH = 1440
 const DEFAULT_HEIGHT = 900
+const DEFAULT_SCALE = 2
 
 export const screenshotCommand = define({
   name: 'screencap',
@@ -38,6 +35,12 @@ export const screenshotCommand = define({
       default: DEFAULT_HEIGHT,
       description: 'Viewport height in pixels',
     },
+    scale: {
+      type: 'number',
+      short: 's',
+      default: DEFAULT_SCALE,
+      description: 'Device scale factor (DPR)',
+    },
     output: {
       type: 'string',
       short: 'o',
@@ -51,7 +54,7 @@ export const screenshotCommand = define({
     },
   },
   run: async (ctx) => {
-    const { url, output } = ctx.values
+    const { url, output, scale } = ctx.values
     let { width, height, full } = ctx.values
 
     if (ctx.values.preset) {
@@ -63,14 +66,15 @@ export const screenshotCommand = define({
 
     const outputPath = resolveOutputPath(url, output)
 
-    try {
-      await setViewport(width, height)
-      await openPage(url)
-      await waitForLoad()
-      await takeScreenshot(outputPath, full)
-      console.log(`Screenshot saved to ${outputPath}`)
-    } finally {
-      await closeBrowser()
-    }
+    await captureScreenshot({
+      url,
+      width,
+      height,
+      deviceScaleFactor: scale,
+      fullPage: full,
+      outputPath,
+    })
+
+    console.log(`Screenshot saved to ${outputPath}`)
   },
 })

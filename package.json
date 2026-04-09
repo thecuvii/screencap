@@ -24,15 +24,16 @@
     "prepare": "vp config"
   },
   "dependencies": {
-    "gunshi": "^0.29.3"
+    "gunshi": "^0.29.3",
+    "playwright": "^1.59.1"
   },
   "devDependencies": {
     "@types/node": "^25.5.0",
     "@typescript/native-preview": "7.0.0-dev.20260328.1",
     "bumpp": "^11.0.1",
     "typescript": "^6.0.2",
-    "vitest": "npm:@voidzero-dev/vite-plus-test@latest",
-    "vite-plus": "latest"
+    "vite-plus": "latest",
+    "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
   },
   "pnpm": {
     "overrides": {
