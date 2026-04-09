@@ -6,7 +6,7 @@ import { resolvePreset } from '../modules/preset/resolve-preset.ts'
 
 const DEFAULT_WIDTH = 1440
 const DEFAULT_HEIGHT = 900
-const DEFAULT_SCALE = 2
+const DEFAULT_SCALE = 3
 
 export const screenshotCommand = define({
   name: 'screencap',
