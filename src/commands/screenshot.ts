@@ -6,6 +6,7 @@ import { setViewport } from '../modules/browser/set-viewport.ts'
 import { takeScreenshot } from '../modules/browser/take-screenshot.ts'
 import { waitForLoad } from '../modules/browser/wait-for-load.ts'
 import { resolveOutputPath } from '../modules/output/resolve-output-path.ts'
+import { resolvePreset } from '../modules/preset/resolve-preset.ts'
 
 const DEFAULT_WIDTH = 1440
 const DEFAULT_HEIGHT = 900
@@ -18,6 +19,12 @@ export const screenshotCommand = define({
       type: 'positional',
       description: 'URL to capture',
       required: true,
+    },
+    preset: {
+      type: 'enum',
+      short: 'p',
+      choices: ['viewport', 'scroll', 'full'] as const,
+      description: 'Preset size: viewport (1440x900), scroll (1440x3600), full (full page)',
     },
     width: {
       type: 'number',
@@ -44,7 +51,16 @@ export const screenshotCommand = define({
     },
   },
   run: async (ctx) => {
-    const { url, width, height, output, full } = ctx.values
+    const { url, output } = ctx.values
+    let { width, height, full } = ctx.values
+
+    if (ctx.values.preset) {
+      const config = resolvePreset(ctx.values.preset)
+      width = config.width
+      height = config.height
+      full = config.fullPage
+    }
+
     const outputPath = resolveOutputPath(url, output)
 
     try {
